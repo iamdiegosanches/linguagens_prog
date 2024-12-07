@@ -2,7 +2,7 @@
 
 % Lista com tamanho par
 par([]).
-par([_,_ | X]) :- p(X).
+par([_,_ | X]) :- par(X).
 
 % Escrever itens de uma lista
 escreve([]).
@@ -10,7 +10,7 @@ escreve([X|T]) :- write(X), p(T).
 
 % Busca elemento em uma lista
 busca(H, [H|_]).
-busca(X,[_|T]) :- p(X, T).
+busca(X,[_|T]) :- busca(X, T).
 
 % Inverte uma lista
 p(Lista, ListaInvertida) :- inverte(Lista, ListaInvertida, []).
