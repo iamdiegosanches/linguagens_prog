@@ -25,6 +25,27 @@ double2 = (2 *) -- função restringida, ele sabe que essa função recebe 1 arg
 -- (-) (50) 2
 -- 48
 
+-- Operações básicas
+
+somar :: Int -> Int -> Int
+somar a b = a + b
+
+subtrair :: Int -> Int -> Int
+subtrair a b = a - b
+
+multiplicar :: Int -> Int -> Int
+multiplicar a b = a * b
+
+dividir :: Int -> Int -> Double
+dividir a b = if b == 0 then 1/0 else fromIntegral (a) / fromIntegral (b)
+
+-- Área de um círculo com variaveis locais
+
+areaCirculo :: Double -> Double
+areaCirculo r = 
+    let pi = 3.14159
+    in pi * r * r
+
 ----------------------------------- Listas -----------------------------------
 
 pares = [0, 2, 6, 8]
@@ -82,7 +103,57 @@ triangles = [ (a ,b , c) | c <- [1..10] , b <- [1..c] , a <- [1..b], a^2 + b^2 =
 -- Boll, Int e Integer, Char, String cadeias de caracteres, Float
 -- Integer é infinito, Int somente 32 bits
 
+-- ghci > : t ’a ’
+-- ’a ’ :: Char
+-- ghci > : t True
+-- True :: Bool
+-- ghci > : t " HELLO ! "
+-- " HELLO ! " :: [ Char ]
+-- ghci > : t ( True , ’a ’)
+-- ( True , ’a ’) :: ( Bool , Char )
+-- ghci > : t 4 == 5
+-- 4 == 5 :: Bool
+
 -- string pode ser 
 hello = ['h','e','l','l','o']
 -- é equivalente a
 hello2 = "hello"
+
+---- Integral
+-- Inclui todos os números incluindo reais e integrais, nesse tipo temos  Int e Integer
+
+---- Floating
+-- Inclui apenas os números de ponto flutuante, Float e Double
+
+---- fromIntegral 
+-- fromIntegral :: (Num b, Integral a) => a -> b
+-- A partir dessa assinatura pega um número Integral e transforma em um número mais geral
+-- bom para trabalhar com Float e Integer juntos
+
+----------------------------------- Funções -----------------------------------
+
+---- Pattern matching
+lucky :: (Integral a) => a -> String
+lucky 7 = " LUCKY NUMBER SEVEN ! "
+lucky x = " Sorry , you ’ re out of luck , pal ! "
+
+-- 
+sayMe :: ( Integral a ) => a -> String
+sayMe 1 = " One ! "
+sayMe 2 = " Two ! "
+sayMe 3 = " Three ! "
+sayMe 4 = " Four ! "
+sayMe 5 = " Five ! "
+sayMe x = " Not between 1 and 5 "
+
+-- sempre incluir um catch
+charName :: Char -> String
+charName 'a' = " Albert "
+charName 'b' = " Broseph "
+charName 'c' = " Cecil "
+
+-- Exception : tut . hs :(53 ,0) -(55 ,21): Non - exhaustive patterns in function charName
+
+-- 
+addVectors :: ( Num a ) => (a , a ) -> (a , a ) -> (a , a )
+addVectors ( x1 , y1 ) ( x2 , y2 ) = ( x1 + x2 , y1 + y2 )
