@@ -37,7 +37,7 @@ multiplicar :: Int -> Int -> Int
 multiplicar a b = a * b
 
 dividir :: Int -> Int -> Double
-dividir a b = if b == 0 then 1/0 else fromIntegral (a) / fromIntegral (b)
+dividir a b = if b == 0 then error "Isso é um erro criado por mim, não vá dividir um número por zero em!!!!" else fromIntegral (a) / fromIntegral (b)
 
 -- Área de um círculo com variaveis locais
 
@@ -80,7 +80,7 @@ func n = [f | f <- [1 .. n], mod n f == 0]
 elem' c xs = [x | x <- xs, x == c]
 removeNonUppercase st = [c | c <- st, elem' c ['A' .. 'Z'] == [c]]
 
-length' xs = 1 + length(tail xs)
+length' xs = sum [1 | _ <- xs ]
 
 boomBangs xs = [ if x < 10 then " BOOM ! " else " BANG ! " | x <- xs , odd x ]
 
@@ -157,3 +157,117 @@ charName 'c' = " Cecil "
 -- 
 addVectors :: ( Num a ) => (a , a ) -> (a , a ) -> (a , a )
 addVectors ( x1 , y1 ) ( x2 , y2 ) = ( x1 + x2 , y1 + y2 )
+
+-- Ignorando elementos com _
+first :: (a , b , c ) -> a
+first (x , _ , _ ) = x -- faz o mesmo que fst
+second :: (a , b , c ) -> b
+second (_ , y , _ ) = y -- faz o mesmo que snd
+third :: (a , b , c ) -> c
+third (_ , _ , z ) = z -- não existe um trd
+
+-- length com funções
+length2' [] = 0
+length2' xs = 1 + length2'(tail xs)
+
+-- sum
+sum2:: Num a => [a] -> a
+sum2 [] = 0
+sum2 (x:xs) = x + sum2 xs
+
+---- Guards
+
+fact3' n
+    |n == 0 = 1
+    |otherwise = n * fact3 (n-1)
+
+
+bmiTell :: ( RealFloat a ) => a -> a -> String
+bmiTell weight height
+    | weight / height ^ 2 <= 18.5 = " You're underweight , you emo , you ! "
+    | weight / height ^ 2 <= 25.0 = " You're supposedly normal . Pffft , I betyou're ugly ! "
+    | weight / height ^ 2 <= 30.0 = " You're fat ! Lose some weight , fatty ! "
+    | otherwise = " You're a whale , congratulations ! "
+
+max' :: (Ord a) => a -> a -> a
+max' a b
+    | a > b = a
+    | otherwise = b
+
+---- Where
+
+-- melhorando bmi
+bmiTell' :: (RealFloat a) => a -> a -> String
+bmiTell' weight height
+    | bmi <= 18.5 = "You're underweight, you emo, you!"
+    | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
+    | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"
+    | otherwise   = "You're a whale, congratulations!"
+    where bmi = weight / height ^ 2
+
+---- Let
+
+-- let <bindings> in <expression>
+cylinder :: Double -> Double -> Double
+cylinder  r h =
+    let sideArea = 2 * pi * r * h
+        topArea = 2 * pi * r
+    in sideArea + 2 * topArea
+
+calcBmis :: ( RealFloat a ) => [( a , a )] -> [ a ]
+calcBmis xs = [ bmi | (w , h ) <- xs , let bmi = w / h ^ 2 , bmi >= 25.0]
+
+---- Case expressions
+
+
+-- case expression of pattern -> result
+--                    pattern -> result
+--                    pattern -> result
+--                            ...
+
+
+----------------------------------- Recursão -----------------------------------
+
+mySum :: Num a => [a] -> a
+mySum [] = 0
+mySum (x:xs) = x + mySum(xs)
+
+len :: Num a => [a] -> a
+len [] = 0
+len (_:xs) = 1 + len(xs)
+
+penultimo :: (Num a) => [a] -> a
+punultimo [a, b] = a
+penultimo (_:xs) = penultimo(xs)
+
+doisUltimos :: (Num a) => [a] -> [a]
+doisUltimos [] = error "Minimo dois elementos necessarios"
+doisUltimos [a,b] = [a,b]
+doisUltimos (_:xs) = doisUltimos(xs)
+
+----- Exercícios
+
+-- Faça uma função recursiva que calcule e retorne o N-ésimo termo da sequência Fibonacci. Alguns números desta sequência são: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89...
+
+
+-- Faça uma função recursiva que permita inverter um número inteiro N. Ex: 123 - 321
+
+
+-- Faça uma função recursiva que permita somar os elementos de um vetor de inteiros.
+
+
+-- Crie uma função recursiva que receba um número inteiro positivo N e calcule o somatório dos números de 1 a N.
+
+
+-- Escreva uma função recursiva que inverta ordem dos elementos presentes no vetor.
+
+
+-- O máximo divisor comum dos inteiros x e y é o maior inteiro que é divisível por x e y. Escreva uma função recursiva mdc, que retorna o máximo divisor comum de x
+-- e y. O mdc de x e y é definido como segue: se y é igual a 0, então mdc(x,y) é x; caso contrário, mdc(x,y) é mdc (y, x%y), onde % é o operador resto.
+
+
+-- Escreva uma função recursiva que determine quantas vezes um dígito K ocorre em um número natural N. Por exemplo, o dígito 2 ocorre 3 vezes em 762021192.
+
+
+-- A multiplicação de dois números inteiros pode ser feita através de somas sucessivas. Proponha um algoritmo recursivo Multip_Rec(n1,n2) que calcule a
+-- multiplicação de dois inteiros.
