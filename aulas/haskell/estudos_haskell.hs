@@ -42,7 +42,7 @@ dividir a b = if b == 0 then error "Isso é um erro criado por mim, não vá div
 -- Área de um círculo com variaveis locais
 
 areaCirculo :: Double -> Double
-areaCirculo r = 
+areaCirculo r =
     let pi = 3.14159
     in pi * r * r
 
@@ -168,7 +168,7 @@ third (_ , _ , z ) = z -- não existe um trd
 
 -- length com funções
 length2' [] = 0
-length2' xs = 1 + length2'(tail xs)
+length2' xs = 1 + length2' (tail xs)
 
 -- sum
 sum2:: Num a => [a] -> a
@@ -230,44 +230,57 @@ calcBmis xs = [ bmi | (w , h ) <- xs , let bmi = w / h ^ 2 , bmi >= 25.0]
 
 mySum :: Num a => [a] -> a
 mySum [] = 0
-mySum (x:xs) = x + mySum(xs)
+mySum (x:xs) = x + mySum (xs)
 
 len :: Num a => [a] -> a
 len [] = 0
-len (_:xs) = 1 + len(xs)
+len (_:xs) = 1 + len (xs)
 
 penultimo :: (Num a) => [a] -> a
 punultimo [a, b] = a
-penultimo (_:xs) = penultimo(xs)
+penultimo (_:xs) = penultimo (xs)
 
 doisUltimos :: (Num a) => [a] -> [a]
 doisUltimos [] = error "Minimo dois elementos necessarios"
 doisUltimos [a,b] = [a,b]
-doisUltimos (_:xs) = doisUltimos(xs)
+doisUltimos (_:xs) = doisUltimos (xs)
 
 ----- Exercícios
 
 -- Faça uma função recursiva que calcule e retorne o N-ésimo termo da sequência Fibonacci. Alguns números desta sequência são: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89...
-
-
--- Faça uma função recursiva que permita inverter um número inteiro N. Ex: 123 - 321
-
-
--- Faça uma função recursiva que permita somar os elementos de um vetor de inteiros.
-
+fibo :: (Integral a) => a -> a
+fibo 0 = 0
+fibo 1 = 1
+fibo n = fibo (n-1) + fibo (n-2)
 
 -- Crie uma função recursiva que receba um número inteiro positivo N e calcule o somatório dos números de 1 a N.
-
+somaN :: Integer -> Integer
+somaN 0 = 0
+somaN n = n + somaN (n-1)
 
 -- Escreva uma função recursiva que inverta ordem dos elementos presentes no vetor.
-
+inverte :: [a] -> [a]
+inverte [] = []
+inverte (x:xs) = inverte xs ++ [x]
 
 -- O máximo divisor comum dos inteiros x e y é o maior inteiro que é divisível por x e y. Escreva uma função recursiva mdc, que retorna o máximo divisor comum de x
 -- e y. O mdc de x e y é definido como segue: se y é igual a 0, então mdc(x,y) é x; caso contrário, mdc(x,y) é mdc (y, x%y), onde % é o operador resto.
+mdc :: (Ord t, Num t) => t -> t -> t
+mdc x y
+  | x == y = x
+  | x > y = mdc (x-y) y
+  | otherwise = mdc (y-x) x
 
+mdc' :: Integral t => t -> t -> t
+mdc' x 0 = x
+mdc' x y = mdc' y (mod x y)
 
--- Escreva uma função recursiva que determine quantas vezes um dígito K ocorre em um número natural N. Por exemplo, o dígito 2 ocorre 3 vezes em 762021192.
-
+-- Escreva uma função recursiva que determine quantas vezes um item K ocorre em um vetor N.
+conta _ [] = 0
+conta a (x:xs) = if a == x then 1 + conta a xs else conta a xs
 
 -- A multiplicação de dois números inteiros pode ser feita através de somas sucessivas. Proponha um algoritmo recursivo Multip_Rec(n1,n2) que calcule a
 -- multiplicação de dois inteiros.
+multipRec :: Integer -> Integer -> Integer
+multipRec 0 _ = 0
+multipRec a b = b + multipRec (a - 1) b
