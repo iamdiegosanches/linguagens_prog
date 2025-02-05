@@ -1,6 +1,5 @@
 -- estudos haskel
-
------------------------------------ Introdução -----------------------------------
+  ----------------------------------- Introdução -----------------------------------
 
 fact1 0 = 1 -- se n for 0 retorno 1
 fact1 n = n * fact1 (n-1) -- passo indutivo: retorna n * fatorial(n-1)
@@ -284,3 +283,34 @@ conta a (x:xs) = if a == x then 1 + conta a xs else conta a xs
 multipRec :: Integer -> Integer -> Integer
 multipRec 0 _ = 0
 multipRec a b = b + multipRec (a - 1) b
+
+-- Retorne o número do meio de um vetor
+meio :: [a] -> a
+meio [] = error "Lista tamanho par ou vazia"
+meio [x] = x 
+meio xs = meio (init (tail xs)) 
+
+-- ponto no meio da lista
+meio' :: (Floating a) => [a] -> a
+meio' [] = error "Lista vazia"
+meio' [x] = x 
+meio' [a, b] = (a + b) / 2
+meio' xs = meio' (init (tail xs)) 
+
+-- calcular a mediana de uma lista de valores
+
+mediana :: (Floating a, Ord a) => [a] -> a
+mediana [] = error "Lista vazia"
+mediana [x] = x 
+mediana [a, b] = (a + b) / 2
+mediana xs = mediana (init (tail (bubbleSort xs)))
+
+bubbleSort :: (Floating a, Ord a) => [a] -> [a]
+bubbleSort xs = go xs (length xs)
+  where
+    go lst 0 = lst
+    go lst n = go (pass lst) (n - 1)
+    
+    pass (x:y:xs) | x > y     = y : pass (x:xs)
+                  | otherwise = x : pass (y:xs)
+    pass xs = xs
