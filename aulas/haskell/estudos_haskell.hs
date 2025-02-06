@@ -113,10 +113,39 @@ triangles = [ (a ,b , c) | c <- [1..10] , b <- [1..c] , a <- [1..b], a^2 + b^2 =
 -- ghci > : t 4 == 5
 -- 4 == 5 :: Bool
 
+-- not tipo booleano
+
+xor :: Bool -> Bool -> Bool
+xor p q = (p || q) && not (p && q)
+
+compn :: Char -> Bool
+compn n = n == 'k'
+
+-- Num -> tipos diferentes Float, Double, Int e Integer
+
+-- Num é uma typeclass, um grupo de tipos, que consiste em todos os tipos considerados como números.
+
+-- Questão 3 da prova: falar a parte do Fractional ao dividir. (1) e (5) são polimórficos e podem assumir valores Double.
+-- Todo fractional é um Num mas nem todo Num é um Fractional
+
+-- Não pode usar 5 / length([1,2,3]) pois length retorna um inteiro
+-- O resultado é Int, ou seja, o resultado não é polimórfico. Como um Int não é um Fractional, Haskell não deixa usá-lo com (/).
+
+-- Solução usar o fromIntegral: 5 / fromIntegral (length [1,2,3])
+
 -- string pode ser 
 hello = ['h','e','l','l','o']
 -- é equivalente a
 hello2 = "hello"
+
+---- Tuplas
+-- fst -> primeiro elemento
+-- snd -> segundo elemento
+t1 :: (String, Integer)
+t1 = ("Num", 1)
+
+t2 :: ((Integer, Integer), ([Integer], Integer))
+t2 = ((1,2), ([1,2],5))
 
 ---- Integral
 -- Inclui todos os números incluindo reais e integrais, nesse tipo temos  Int e Integer
@@ -244,7 +273,7 @@ doisUltimos [] = error "Minimo dois elementos necessarios"
 doisUltimos [a,b] = [a,b]
 doisUltimos (_:xs) = doisUltimos (xs)
 
------ Exercícios
+----------------------------------- Exercícios -----------------------------------
 
 -- Faça uma função recursiva que calcule e retorne o N-ésimo termo da sequência Fibonacci. Alguns números desta sequência são: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89...
 fibo :: (Integral a) => a -> a
@@ -256,6 +285,11 @@ fibo n = fibo (n-1) + fibo (n-2)
 somaN :: Integer -> Integer
 somaN 0 = 0
 somaN n = n + somaN (n-1)
+
+-- Produto dos elementos de uma lista
+prod :: Num a => [a] -> a
+prod [] = 1
+prod (x:xs) = x * prod(xs)
 
 -- Escreva uma função recursiva que inverta ordem dos elementos presentes no vetor.
 inverte :: [a] -> [a]
@@ -299,13 +333,13 @@ meio' xs = meio' (init (tail xs))
 
 -- calcular a mediana de uma lista de valores
 
-mediana :: (Floating a, Ord a) => [a] -> a
+mediana :: (Fractional a, Ord a) => [a] -> a
 mediana [] = error "Lista vazia"
 mediana [x] = x 
 mediana [a, b] = (a + b) / 2
 mediana xs = mediana (init (tail (bubbleSort xs)))
 
-bubbleSort :: (Floating a, Ord a) => [a] -> [a]
+bubbleSort :: (Fractional a, Ord a) => [a] -> [a]
 bubbleSort xs = go xs (length xs)
   where
     go lst 0 = lst
@@ -314,3 +348,11 @@ bubbleSort xs = go xs (length xs)
     pass (x:y:xs) | x > y     = y : pass (x:xs)
                   | otherwise = x : pass (y:xs)
     pass xs = xs
+
+---- List comprehension
+
+quadradoNumero :: Num a => [a] -> [a]
+quadradoNumero x = [f*f | f <- x]
+
+maiorQue :: Ord a => a -> [a] -> [a]
+maiorQue a x = [f | f <- x, f > a]
