@@ -62,7 +62,7 @@ meio' xs = meio' (init (tail xs))
 -- maior elemento
 maior :: (Ord a, Fractional a) => [a] -> a
 maior [x] = x
-maior (x:xs) | x > maior xs = x 
+maior (x:xs) | x > maior xs = x
              | otherwise = maior xs
 
 -- calcular a mediana de uma lista de valores
@@ -105,6 +105,13 @@ unicaOcorrencia _ [] = False
 unicaOcorrencia a (x:xs) | x == a = if (unicaOcorrencia a xs) then False else True
                          | otherwise = unicaOcorrencia a xs
 
+-- Faça uma função que calcule a soma dos dígitos de um número.
+somaDigitos :: Integral t => t -> t
+somaDigitos 0 = 0
+somaDigitos x = mod x 10 + somaDigitos (div x 10)
+
+-- Defina uma funcao que dada uma lista de numeros calcula a sua media.
+
 ---- List comprehension
 
 quadradoNumero :: Num a => [a] -> [a]
@@ -138,3 +145,63 @@ menor' x y z
 
 duplica' :: [a] -> [a]
 duplica' x = [y | f <- x, y <- [f,f]]
+
+-- Faça uma função mult35 x que retorne True caso a entrada seja múltiplo de 3 e 5 e False caso contrário.
+mult35 :: Integral a => a -> Bool
+mult35 x | mod x 3 == 0 && mod x 5 == 0 = True
+         | otherwise = False
+
+-- Faça uma função que receba um ângulo a e retorne uma tupla contendo o seno da metade desse ângulo utilizando a identidade:
+-- sin(x/2) = +- sqrt((1-cos(x))/2)
+senoM :: Floating b => b -> (b, b)
+senoM x = (sqrt ((1 - cos x) / 2), -sqrt ((1 - cos x) / 2))
+
+-- Encontre os 10 primeiros anos bissextos.
+bissexto10 :: [Integer]
+bissexto10 = [4*x | x <- [0..9]]
+
+-- Dada a string “0123456789”, crie uma lista com os dígitos em formato Integer
+stringData :: [Char] -> [Int]
+stringData x = [fromEnum t - 48 | t  <- x]
+
+-- Crie uma função ehTriangulo que determina se três lados x, y, z podem formar um triângulo.
+ehTriangulo :: (Ord a, Fractional a) => a -> a -> a -> Bool
+ehTriangulo x y z | x + y > z && x + z > y && y + z > x = True
+                  | otherwise = False
+
+-- Faça uma função para calcular o produto escalar entre dois vetores. 
+produtoEscalar :: Num a => (a, a, a) -> (a, a, a) -> a
+produtoEscalar (x1,y1,z1) (x2,y2,z2) = x1*x2 + y1*y2 + z1*z2
+
+produtoEscalar' :: Num a => [a] -> [a] -> a
+produtoEscalar' v1 v2
+    | length v1 == length v2 = sum (zipWith (*) v1 v2)
+    | otherwise = error "Os vetores devem ter o mesmo tamanho!"
+
+-- https://folivetti.github.io/courses/Haskell/Matrizes
+
+-- Faça uma função que gere uma matriz identidade de tamanho n.
+
+-- Faça uma função que calcule a soma da diagonal principal de uma matriz.
+
+-- Faça uma função que calcule a soma da diagonal secundária de uma matriz.
+
+-- Defina uma função que receba dois pares de inteiros e retorne um par de inteiros, sendo o primeiro elemento do par resultado 
+-- a soma dos primeiros elementos dos pares de entrada, e o segundo elemento do par, o produto dos segundos elementos dos pares de entrada.
+
+-- Escreva uma função que, dados três números inteiros, retorne um par contendo no primeiro elemento o maior dos números, e no 
+-- segundo elemento o segundo maior dos números.
+
+-- Escreva uma função que receba um triplo de números inteiros e retorne um triplo em que os mesmos números estão ordenados 
+-- por ordem decrescente.
+
+-- Os lados de qualquer triângulo respeitam a seguinte restrição: a soma dos comprimentos de quaisquer dois lados, ´e superior 
+-- ao comprimento do terceiro lado. Escreva uma fun¸c˜ao que
+-- receba o comprimento de trˆes segmentos de recta e retorne um valor booleano indicando se
+-- satisfazem esta restri¸c˜ao.
+
+-- Escreva uma função abrev que receba uma string contendo nome de uma pessoa e retorne uma string com o primeiro nome e apelido1
+-- (e.g. (abrev ‘‘Joao Carlos Martins Sarmento’’)=’’Joao Sarmento’’) As funçõoes, pré-definidas, words e unwords poderão ser-lhe uteis
+-- • words :: String -> [String], dá como resultado a lista das palavras (strings) de um texto (uma string)
+-- • unwords :: [String] -> String, constroi um texto (uma string) a partir de uma
+-- lista de palavras (strings)
