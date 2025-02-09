@@ -178,30 +178,54 @@ produtoEscalar' v1 v2
     | length v1 == length v2 = sum (zipWith (*) v1 v2)
     | otherwise = error "Os vetores devem ter o mesmo tamanho!"
 
--- https://folivetti.github.io/courses/Haskell/Matrizes
-
 -- Faça uma função que gere uma matriz identidade de tamanho n.
+matrizIdentidade :: Int -> [[Int]]
+matrizIdentidade n = [[if i == j then 1 else 0 | j <- [1..n]] | i <- [1..n]]
 
 -- Faça uma função que calcule a soma da diagonal principal de uma matriz.
+somaDiagonal :: [[Int]] -> Int
+somaDiagonal [] = 0 
+somaDiagonal ([]:_) = 0
+somaDiagonal ((x:_):ys) = x + somaDiagonal (map tail ys)
 
 -- Faça uma função que calcule a soma da diagonal secundária de uma matriz.
+somaDiagonalSecundaria :: [[Int]] -> Int
+somaDiagonalSecundaria [] = 0
+somaDiagonalSecundaria ([]:_) = 0
+somaDiagonalSecundaria (m:ms) = last m + somaDiagonalSecundaria (map init ms)
 
 -- Defina uma função que receba dois pares de inteiros e retorne um par de inteiros, sendo o primeiro elemento do par resultado 
 -- a soma dos primeiros elementos dos pares de entrada, e o segundo elemento do par, o produto dos segundos elementos dos pares de entrada.
+func1 :: Num b => b -> b -> (b, b)
+func1 a b = (a+b, a*b)
 
 -- Escreva uma função que, dados três números inteiros, retorne um par contendo no primeiro elemento o maior dos números, e no 
 -- segundo elemento o segundo maior dos números.
+func2 :: (Ord a, Integral a) => a -> a -> a -> (a, a)
+func2 a b c
+    | a >= b && b >= c = (a, b)
+    | a >= c && c >= b = (a, c)
+    | b >= a && a >= c = (b, a)
+    | b >= c && c >= a = (b, c)
+    | c >= a && a >= b = (c, a)
+    | otherwise        = (c, b)
 
 -- Escreva uma função que receba um triplo de números inteiros e retorne um triplo em que os mesmos números estão ordenados 
 -- por ordem decrescente.
-
--- Os lados de qualquer triângulo respeitam a seguinte restrição: a soma dos comprimentos de quaisquer dois lados, ´e superior 
--- ao comprimento do terceiro lado. Escreva uma fun¸c˜ao que
--- receba o comprimento de trˆes segmentos de recta e retorne um valor booleano indicando se
--- satisfazem esta restri¸c˜ao.
+func3 :: (Ord a, Integral a) => a -> a -> a -> [a]
+func3 a b c
+    | a >= b && b >= c = [c, b, a]
+    | a >= c && c >= b = [b, c, a]
+    | b >= a && a >= c = [c, a, b]
+    | b >= c && c >= a = [a, c, b]
+    | c >= a && a >= b = [b, a, c]
+    | otherwise        = [a, b, c]
 
 -- Escreva uma função abrev que receba uma string contendo nome de uma pessoa e retorne uma string com o primeiro nome e apelido1
 -- (e.g. (abrev ‘‘Joao Carlos Martins Sarmento’’)=’’Joao Sarmento’’) As funçõoes, pré-definidas, words e unwords poderão ser-lhe uteis
 -- • words :: String -> [String], dá como resultado a lista das palavras (strings) de um texto (uma string)
 -- • unwords :: [String] -> String, constroi um texto (uma string) a partir de uma
 -- lista de palavras (strings)
+abrev :: String -> String
+abrev nome = unwords [head palavras, last palavras]
+  where palavras = words nome
