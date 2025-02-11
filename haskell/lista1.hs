@@ -85,7 +85,7 @@ produtoLista (x:xs) = x * produtoLista xs
 -- índice seja inválido, retorne um erro.
 
 elementoN :: [a] -> Int -> a
-elementoN [] i = error "Indice out of bounds"
+elementoN [] i = error "index too large"
 elementoN (x:_) 0 = x
 elementoN (x:xs) i = elementoN xs (i-1)
 

@@ -159,8 +159,16 @@ media [] = error "Lista vazia!"
 media xs = soma xs / tamanho xs
 
 -- Defina uma função somaQuadrados que recebe uma lista de números e retorna a soma dos quadrados dos elementos da lista.
+somaQuadrados :: (Num a) => [a] -> a
+somaQuadrados [] = 0
+somaQuadrados (x:xs) = x*x + somaQuadrados xs
 
-
+-- Verificar palindromos
+palindromo :: String -> Bool
+palindromo [] = True
+palindromo [a] = True
+palindromo (x:xs) | x == last xs = palindromo (init xs)
+                  | otherwise = False
 
 -- Faça uma função de ordenação
 
