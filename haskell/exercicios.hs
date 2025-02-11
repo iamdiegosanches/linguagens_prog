@@ -82,6 +82,7 @@ bubbleSort xs = go xs (length xs)
                   | otherwise = x : pass (y:xs)
     pass xs = xs
 
+-- Ocorre um item na lista
 ocorrencia :: Ord t => t -> [t] -> Bool
 ocorrencia _ [] = False
 ocorrencia y (x:xs) = if x == y then True else ocorrencia y xs
@@ -91,10 +92,12 @@ maiorQue' :: Ord t => t -> [t] -> [t]
 maiorQue' _ [] = []
 maiorQue' a (x:xs) = if x > a then x : maiorQue' a xs else maiorQue' a xs
 
+-- Duplica itens de uma lista
 duplica :: [a] -> [a]
 duplica [] = []
 duplica (x:xs) = x : x : duplica xs
 
+-- Concatena listas com recursão
 concatena :: [a] -> [a] -> [a]
 concatena [] l = l
 concatena (x:xs) l = x:concatena xs l
@@ -110,7 +113,64 @@ somaDigitos :: Integral t => t -> t
 somaDigitos 0 = 0
 somaDigitos x = mod x 10 + somaDigitos (div x 10)
 
+-- Faça uma função que gere uma matriz identidade de tamanho n.
+matrizIdentidade :: Int -> [[Int]]
+matrizIdentidade n = [[if i == j then 1 else 0 | j <- [1..n]] | i <- [1..n]]
+
+-- Faça uma função que calcule a soma da diagonal principal de uma matriz.
+somaDiagonal :: [[Int]] -> Int
+somaDiagonal [] = 0 
+somaDiagonal ([]:_) = 0
+somaDiagonal ((x:_):ys) = x + somaDiagonal (map tail ys)
+
+-- Faça uma função que calcule a soma da diagonal secundária de uma matriz.
+somaDiagonalSecundaria :: [[Int]] -> Int
+somaDiagonalSecundaria [] = 0
+somaDiagonalSecundaria ([]:_) = 0
+somaDiagonalSecundaria (m:ms) = last m + somaDiagonalSecundaria (map init ms)
+
+-- Calcular potencia
+potencia :: (Eq t1, Num t1, Num t2) => t2 -> t1 -> t2
+potencia _ 0 = 1
+potencia x n = x * potencia x (n-1)
+
+-- Fatorial duplo
+fatDuplo 2 = 2
+fatDuplo 1 = 1
+fatDuplo x = x * fatDuplo (x-2)
+
+-- Produto do intervalo dos números
+intervalo :: Int -> Int -> Int
+intervalo a b | a == b = a 
+              | a > b = 1
+              | otherwise = a*b*intervalo (a+1) (b-1)
+
 -- Defina uma funcao que dada uma lista de numeros calcula a sua media.
+soma :: [Double] -> Double
+soma [] = 0
+soma (x:xs) = x + soma xs
+
+tamanho :: [Double] -> Double
+tamanho [] = 0
+tamanho (_:xs) = 1 + tamanho xs
+
+media :: [Double] -> Double
+media [] = error "Lista vazia!"
+media xs = soma xs / tamanho xs
+
+-- Defina uma função somaQuadrados que recebe uma lista de números e retorna a soma dos quadrados dos elementos da lista.
+
+
+
+-- Faça uma função de ordenação
+
+
+
+-- Escreva a função rotacionarEsq que recebe uma lista e um número n, e retorna a lista rotacionada n vezes para a esquerda.
+
+
+
+-- Implemente a função ehSublista que recebe duas listas e retorna True se a primeira for uma sublista contínua da segunda.
 
 ---- List comprehension
 
@@ -177,22 +237,6 @@ produtoEscalar' :: Num a => [a] -> [a] -> a
 produtoEscalar' v1 v2
     | length v1 == length v2 = sum (zipWith (*) v1 v2)
     | otherwise = error "Os vetores devem ter o mesmo tamanho!"
-
--- Faça uma função que gere uma matriz identidade de tamanho n.
-matrizIdentidade :: Int -> [[Int]]
-matrizIdentidade n = [[if i == j then 1 else 0 | j <- [1..n]] | i <- [1..n]]
-
--- Faça uma função que calcule a soma da diagonal principal de uma matriz.
-somaDiagonal :: [[Int]] -> Int
-somaDiagonal [] = 0 
-somaDiagonal ([]:_) = 0
-somaDiagonal ((x:_):ys) = x + somaDiagonal (map tail ys)
-
--- Faça uma função que calcule a soma da diagonal secundária de uma matriz.
-somaDiagonalSecundaria :: [[Int]] -> Int
-somaDiagonalSecundaria [] = 0
-somaDiagonalSecundaria ([]:_) = 0
-somaDiagonalSecundaria (m:ms) = last m + somaDiagonalSecundaria (map init ms)
 
 -- Defina uma função que receba dois pares de inteiros e retorne um par de inteiros, sendo o primeiro elemento do par resultado 
 -- a soma dos primeiros elementos dos pares de entrada, e o segundo elemento do par, o produto dos segundos elementos dos pares de entrada.

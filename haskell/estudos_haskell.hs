@@ -272,4 +272,3 @@ doisUltimos :: (Num a) => [a] -> [a]
 doisUltimos [] = error "Minimo dois elementos necessarios"
 doisUltimos [a,b] = [a,b]
 doisUltimos (_:xs) = doisUltimos (xs)
-

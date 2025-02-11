@@ -8,7 +8,7 @@ dobro x = x * 2
 primeiro :: (a, a) -> a
 primeiro (x, y) = x
 
-maiorQue10 :: (Num a, Ord a) => a -> Bool
+maiorQue10 :: (Ord a, Num a) => a -> Bool
 maiorQue10 x = x > 10
 
 somaLista :: Num a => [a] -> a
@@ -62,7 +62,7 @@ contaElementos (x:xs)  = 1 + contaElementos xs
 
 reverter :: [a] -> [a]
 reverter [] = []
-reverter (x:xs) =  reverter xs ++  [x]
+reverter (x:xs) =  reverter xs ++ [x]
 
 -- 9) Defina um novo tipo chamado DiaSemana representando os dias da semana.
 
