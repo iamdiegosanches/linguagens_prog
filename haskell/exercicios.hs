@@ -170,8 +170,20 @@ palindromo [a] = True
 palindromo (x:xs) | x == last xs = palindromo (init xs)
                   | otherwise = False
 
--- Faça uma função de ordenação
+-- Faça uma função de ordenação que utilize recursão
+merge :: (Ord a) => [a] -> [a] -> [a]
+merge [] ys = ys
+merge xs [] = xs
+merge (x:xs) (y:ys)
+    | x <= y = x : merge xs (y:ys)
+    | otherwise = y : merge (x:xs) ys
 
+mergeSort :: (Ord a) => [a] -> [a]
+mergeSort [] = []
+mergeSort [x] = [x]
+mergeSort xs =
+    let (left, right) = splitAt (div (length xs) 2) xs
+    in merge (mergeSort left) (mergeSort right)
 
 
 -- Escreva a função rotacionarEsq que recebe uma lista e um número n, e retorna a lista rotacionada n vezes para a esquerda.
