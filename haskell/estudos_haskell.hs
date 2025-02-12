@@ -163,7 +163,7 @@ t2 = ((1,2), ([1,2],5))
 ---- Pattern matching
 lucky :: (Integral a) => a -> String
 lucky 7 = " LUCKY NUMBER SEVEN ! "
-lucky x = " Sorry , you ’ re out of luck , pal ! "
+lucky x = " Sorry , you're out of luck , pal ! "
 
 -- 
 sayMe :: ( Integral a ) => a -> String
