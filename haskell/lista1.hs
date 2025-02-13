@@ -5,7 +5,7 @@
 dobro :: Num a => a -> a
 dobro x = x * 2
 
-primeiro :: (a, a) -> a
+primeiro :: (a, b) -> a
 primeiro (x, y) = x
 
 maiorQue10 :: (Ord a, Num a) => a -> Bool
@@ -26,6 +26,9 @@ ehPar x | mod x 2 == 0 = True
 
 ehPar' :: Integral a => a -> Bool
 ehPar' = even
+
+ehPar2 :: (Integral a, Eq a) => a -> Bool
+ehPar2 x = mod x 2 == 0
 
 -- 3) Implemente uma função quadrado que recebe um número x e retorna x ao quadrado. Escreva a assinatura da função.
 
@@ -48,7 +51,7 @@ somaN n = n + somaN (n-1)
 -- 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987
 
 fibonacci :: Integer -> Integer
-fibonacci 0 = 1
+fibonacci 0 = 0
 fibonacci 1 = 1
 fibonacci n = fibonacci (n-1) + fibonacci (n-2)
 
