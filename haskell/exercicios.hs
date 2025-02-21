@@ -189,8 +189,8 @@ mergeSort xs =
 -- Escreva a função rotacionarEsq que recebe uma lista e um número n, e retorna a lista rotacionada n vezes para a esquerda.
 
 
-
 -- Implemente a função ehSublista que recebe duas listas e retorna True se a primeira for uma sublista contínua da segunda.
+
 
 ---- List comprehension
 

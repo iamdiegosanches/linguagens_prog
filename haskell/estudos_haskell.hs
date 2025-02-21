@@ -272,3 +272,89 @@ doisUltimos :: (Num a) => [a] -> [a]
 doisUltimos [] = error "Minimo dois elementos necessarios"
 doisUltimos [a,b] = [a,b]
 doisUltimos (_:xs) = doisUltimos (xs)
+
+----------------------------------- Funções como Argumentos -----------------------------------
+
+-- recebe (uma função que recebe um double e retorna um double) recebe uma lista de double e retorna lista de double
+aplicar :: (Double -> Double) -> [Double] -> [Double]
+aplicar _ [] = []
+aplicar f (n:ns) = f n : aplicar f ns
+
+-- ETA redundance
+raizQuadrada :: [Double] -> [Double]
+raizQuadrada = aplicar sqrt
+
+multiplica2 :: Double -> [Double] -> [Double]
+multiplica2 m = aplicar (m *)
+
+multiplicaLista :: Num b => b -> [b] -> [b]
+multiplicaLista m = map (m *)
+
+heads :: [[a]] -> [a]
+heads = map head
+
+lasts :: [[a]] -> [a]
+lasts = map last 
+
+-- funcao filter
+maiorque3 :: (Num a, Ord a) => [a] -> [a]
+maiorque3 = filter (>3)
+
+-- função lambda
+-- as duas funções abaixo são equivalentes
+-- lambda para cada x será x + 1
+-- map (\x -> x + 1) [1,2,3] = map (+1) [1,2,3]
+
+lista :: (Num a) => [(a,a)] -> [a]
+lista = map (\(a,b) -> a + b)
+
+---- Folds
+-- Usado para acumular valores
+
+----------------------------------- Próprios Tipos -----------------------------------
+
+-- Exemplo do tipo Int
+-- data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647
+
+
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
+-- (coordenada centro x, coordenada centro y, raio)
+-- :t Circle
+-- Circle :: Float -> Float -> Float -> Shape
+
+surface :: Shape -> Float
+surface (Circle _ _ r) = pi * r ^ 2
+surface (Rectangle x1 y1 x2 y2) = abs (x2 - x1) * abs (y2 - y1)
+
+-- map ( Circle 10 20) [4 ,5 ,6 ,6]
+-- [Circle 10.0 20.0 4.0,Circle 10.0 20.0 5.0,Circle 10.0 20.0 6.0,Circle 10.0 20.0 6.0]
+
+-- Dado intermediário
+data Point = Point Float Float deriving (Show)
+data Shape' = Circle' Point Float | Rectangle' Point Point deriving (Show)
+
+nudge :: Shape' -> Float -> Float -> Shape'
+nudge (Circle' (Point x y) r) a b = Circle' (Point (x + a) (y + b)) r
+nudge (Rectangle' (Point x1 y1) (Point x2 y2)) a b = Rectangle' ( Point ( x1 + a ) ( y1 + b )) ( Point ( x2 + a ) ( y2 + b ))
+
+-- Exportando tipos
+-- module Shapes
+-- ( Point (..)
+-- , Shape (..)
+-- , surface
+-- , nudge
+-- , baseCircle
+-- , baseRect
+-- ) where
+
+---- Record syntax
+-- Forma alternativa de gerar tipos
+data Person = Person { firstName :: String
+                     , lastName :: String
+                     , age :: Int
+                     , height :: Float
+                     , phoneNumber :: String
+                     , flavor :: String
+ } deriving (Show)
+
+---- Type parameters

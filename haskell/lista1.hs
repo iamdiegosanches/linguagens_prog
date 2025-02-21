@@ -59,7 +59,7 @@ fibonacci n = fibonacci (n-1) + fibonacci (n-2)
 
 contaElementos :: [a] -> Int
 contaElementos [] = 0
-contaElementos (x:xs)  = 1 + contaElementos xs
+contaElementos (_:xs)  = 1 + contaElementos xs
 
 -- 8) Implemente uma função reverter :: [a] -> [a] que inverte uma lista. Não use reverse.
 
