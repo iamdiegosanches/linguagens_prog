@@ -16,3 +16,18 @@ Este repositório contém materiais e exercícios da disciplina de Linguagens de
      ```
 
 3. **Após carregar, você pode executar os predicados definidos no arquivo.**
+
+## Como Compilar e Executar um Arquivo `.hs`
+
+1. **Instale o ghc**
+
+2. **Abra o terminal e execute:**
+```bash
+ghci
+```
+
+3. **Carregue o arquivo .hs**
+```haskell
+ghci> :l nomedoarquivo.hs
+```
+
