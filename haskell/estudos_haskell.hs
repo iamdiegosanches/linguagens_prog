@@ -1,5 +1,7 @@
 -- estudos haskel
   ----------------------------------- Introdução -----------------------------------
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use foldr" #-}
 
 fact1 0 = 1 -- se n for 0 retorno 1
 fact1 n = n * fact1 (n-1) -- passo indutivo: retorna n * fatorial(n-1)
@@ -310,6 +312,13 @@ lista = map (\(a,b) -> a + b)
 
 ---- Folds
 -- Usado para acumular valores
+foldr' :: (a -> b -> b) -> b -> [a] -> b
+foldr' f acc [] = acc
+foldr' f acc (x:xs) = f x (foldr' f acc xs)
+
+foldl' :: (b -> a -> b) -> b -> [a] -> b
+foldl' f acc [] = acc
+foldl' f acc (x:xs) = f (foldl' f acc xs) x
 
 ----------------------------------- Próprios Tipos -----------------------------------
 
