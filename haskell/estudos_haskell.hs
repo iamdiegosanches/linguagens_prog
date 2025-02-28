@@ -366,4 +366,34 @@ data Person = Person { firstName :: String
                      , flavor :: String
  } deriving (Show)
 
----- Type parameters
+
+data Forma = Circulo Float Float Float | Retangulo Float Float Float Float | Trapezio Float Float Float | Triangulo Float Float deriving(Show)
+-- Trapesio -> base maior, base menor, altura
+-- Triangulo base altura
+
+-- O valor do construtor de Circulo tem três campos do tipo float
+
+-- Circulo :: Float -> Float -> Float -> Forma
+
+superficie :: Forma -> Float
+superficie (Circulo _ _ r) = pi * r ^ 2
+superficie (Retangulo x1 y1 x2 y2) = abs (x2 - x1) * abs (y2 - y1)
+superficie (Trapezio besao b h) = ((besao + b)*h)
+superficie (Triangulo a1 a2) = a1*a2/2 
+
+---- Type classes
+
+-- O que precisa acontecer para um Foo ser igual a outro
+data Foo = Foo {x :: Integer, str :: String}
+instance Eq Foo where
+    (Foo x1 str1) == (Foo x2 str2) = (x1 == x2) && (str1 == str2)
+
+
+-- questão da prova
+instance Eq Forma where
+    (Circulo _ _ r1) == (Circulo _ _ r2) = (r1 == r2)
+    (Retangulo x1 y1 x2 y2) == (Retangulo x1' y1' x2' y2') = (x1 == x1') && (x2 == x2') && (y1 == y1') && (y2 == y2')
+    (Trapezio besao1 besinho1 h1) == (Trapezio besao2 besinho2 h2) = (besao1 == besao2) && (besinho1 == besinho2) && (h1 == h2)
+    (Triangulo a1 a2) == (Triangulo a3 a4) = (a1 == a3) && (a2 == a4)
+    _ == _ = False
+
