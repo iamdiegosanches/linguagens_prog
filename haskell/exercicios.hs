@@ -119,7 +119,7 @@ matrizIdentidade n = [[if i == j then 1 else 0 | j <- [1..n]] | i <- [1..n]]
 
 -- Faça uma função que calcule a soma da diagonal principal de uma matriz.
 somaDiagonal :: [[Int]] -> Int
-somaDiagonal [] = 0 
+somaDiagonal [] = 0
 somaDiagonal ([]:_) = 0
 somaDiagonal ((x:_):ys) = x + somaDiagonal (map tail ys)
 
@@ -141,7 +141,7 @@ fatDuplo x = x * fatDuplo (x-2)
 
 -- Produto do intervalo dos números
 intervalo :: Int -> Int -> Int
-intervalo a b | a == b = a 
+intervalo a b | a == b = a
               | a > b = 1
               | otherwise = a*b*intervalo (a+1) (b-1)
 
@@ -304,37 +304,47 @@ applyN :: (a -> a) -> Int -> a -> a
 applyN _ 0 x = x
 applyN func n x = func (applyN func (n-1) x)
 
--- Crie uma função que conte quantos elementos de uma lista satisfazem **dois predicados simultaneamente**.  
--- Exemplo: `contarDuplo even (>5) [1..10]` retorna `2` (6 e 8 são pares e maiores que 5). 
+-- Crie uma função que conte quantos elementos de uma lista satisfazem dois predicados simultaneamente.  
+-- Exemplo: contarDuplo even (>5) [1..10] retorna 2 (6 e 8 são pares e maiores que 5). 
 -- contarDuplo :: (a -> Bool) -> (a -> Bool) -> [a] -> Int
 
--- Implemente uma versão do `map` que aplica a função apenas aos elementos em **posições ímpares** (1ª, 3ª, 5ª...).  
--- Exemplo: `mapImpares (*2) [1,2,3,4,5]` retorna `[2,2,6,4,10]`.  
+contarDuplo :: (a -> Bool) -> (a -> Bool) -> [a] -> Int
+contarDuplo f1 f2 = foldr (\element acc -> if f1 element && f2 element then acc + 1 else acc) 0
+
+-- Implemente uma versão do `map` que aplica a função apenas aos elementos em posições ímpares (1ª, 3ª, 5ª...).  
+-- Exemplo: mapImpares (*2) [1,2,3,4,5] retorna [2,6,10].
 -- mapImpares :: (a -> a) -> [a] -> [a]
 
--- Use `foldr` ou `foldl` para calcular o **produtório** dos elementos de uma lista.  
--- Exemplo: `produtorio [2,3,4]` retorna `24`.  
+mapImpares :: (a -> a) -> [a] -> [a]
+mapImpares _ [] = []
+mapImpares f [x] = [f x]
+mapImpares f (x:_:xs) = f x:mapImpares f xs
+
+-- Use `foldr` ou `foldl` para calcular o produtório dos elementos de uma lista.  
+-- Exemplo: produtorio [2,3,4] retorna 24.  
 -- produtorio :: (Foldable t, Num a) => t a -> a
 
--- Escreva uma função que retorne os **quadrados dos números ímpares** de uma lista, mas apenas se o quadrado for maior que 20.  
--- Exemplo: `quadradosFiltrados [1..10]` retorna `[25,49,81]`.  
+
+
+-- Escreva uma função que retorne os quadrados dos números ímpares de uma lista, mas apenas se o quadrado for maior que 20.  
+-- Exemplo: quadradosFiltrados [1..10] retorna [25,49,81].
 -- quadradosFiltrados :: [Int] -> [Int]
 
 -- Implemente uma versão simplificada de `groupBy` que agrupa elementos consecutivos de uma lista conforme um predicado.  
--- Exemplo: `groupBy' (\x y -> x == y) [1,1,2,3,3]` retorna `[[1,1],[2],[3,3]]`.  
+-- Exemplo: groupBy (\x y -> x == y) [1,1,2,3,3] retorna [[1,1],[2],[3,3]].  
 -- groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
 
--- Calcule a média de uma lista de números usando **apenas um fold** (sem `sum` ou `length` separados).  
+-- Calcule a média de uma lista de números usando apenas um fold (sem sum ou length separados).  
 -- Dica: Acompanhe a soma e a contagem durante o fold.  
 -- mediaFold :: (Fractional a, Foldable t) => t a -> a
 
--- Use `map` para converter todos os caracteres de uma string para maiúsculas (ignore caracteres não-ASCII).  
--- Dica: Use `toUpper` do módulo `Data.Char` (importe-o).  
+-- Use map para converter todos os caracteres de uma string para maiúsculas (ignore caracteres não-ASCII).  
+-- Dica: Use toUpper do módulo Data.Char (importe-o).  
 -- paraMaiusculas :: String -> String
 
--- Explique com exemplos concretos por que `foldl (/) 1 [2,3]` e `foldr (/) 1 [2,3]` produzem resultados diferentes.
+-- Explique com exemplos concretos por que foldl (/) 1 [2,3] e foldr (/) 1 [2,3] produzem resultados diferentes.
 
 -- Crie uma função que insira um elemento entre todos os elementos de uma lista.  
--- Exemplo: `intercalar 0 [1,2,3]` retorna `[1,0,2,0,3]`.  
+-- Exemplo: intercalar 0 [1,2,3] retorna [1,0,2,0,3].
 -- intercalar :: a -> [a] -> [a]
 
