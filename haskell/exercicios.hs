@@ -293,3 +293,48 @@ func3 a b c
 abrev :: String -> String
 abrev nome = unwords [head palavras, last palavras]
   where palavras = words nome
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+-- Escreva uma função que aplique uma função f n vezes a um valor x.  
+-- Exemplo: applyN (+1) 3 5 deve retornar 8 (5+1+1+1).  
+-- applyN :: (a -> a) -> Int -> a -> a
+
+applyN :: (a -> a) -> Int -> a -> a
+applyN _ 0 x = x
+applyN func n x = func (applyN func (n-1) x)
+
+-- Crie uma função que conte quantos elementos de uma lista satisfazem **dois predicados simultaneamente**.  
+-- Exemplo: `contarDuplo even (>5) [1..10]` retorna `2` (6 e 8 são pares e maiores que 5). 
+-- contarDuplo :: (a -> Bool) -> (a -> Bool) -> [a] -> Int
+
+-- Implemente uma versão do `map` que aplica a função apenas aos elementos em **posições ímpares** (1ª, 3ª, 5ª...).  
+-- Exemplo: `mapImpares (*2) [1,2,3,4,5]` retorna `[2,2,6,4,10]`.  
+-- mapImpares :: (a -> a) -> [a] -> [a]
+
+-- Use `foldr` ou `foldl` para calcular o **produtório** dos elementos de uma lista.  
+-- Exemplo: `produtorio [2,3,4]` retorna `24`.  
+-- produtorio :: (Foldable t, Num a) => t a -> a
+
+-- Escreva uma função que retorne os **quadrados dos números ímpares** de uma lista, mas apenas se o quadrado for maior que 20.  
+-- Exemplo: `quadradosFiltrados [1..10]` retorna `[25,49,81]`.  
+-- quadradosFiltrados :: [Int] -> [Int]
+
+-- Implemente uma versão simplificada de `groupBy` que agrupa elementos consecutivos de uma lista conforme um predicado.  
+-- Exemplo: `groupBy' (\x y -> x == y) [1,1,2,3,3]` retorna `[[1,1],[2],[3,3]]`.  
+-- groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+
+-- Calcule a média de uma lista de números usando **apenas um fold** (sem `sum` ou `length` separados).  
+-- Dica: Acompanhe a soma e a contagem durante o fold.  
+-- mediaFold :: (Fractional a, Foldable t) => t a -> a
+
+-- Use `map` para converter todos os caracteres de uma string para maiúsculas (ignore caracteres não-ASCII).  
+-- Dica: Use `toUpper` do módulo `Data.Char` (importe-o).  
+-- paraMaiusculas :: String -> String
+
+-- Explique com exemplos concretos por que `foldl (/) 1 [2,3]` e `foldr (/) 1 [2,3]` produzem resultados diferentes.
+
+-- Crie uma função que insira um elemento entre todos os elementos de uma lista.  
+-- Exemplo: `intercalar 0 [1,2,3]` retorna `[1,0,2,0,3]`.  
+-- intercalar :: a -> [a] -> [a]
+
