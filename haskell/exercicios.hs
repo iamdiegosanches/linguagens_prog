@@ -324,27 +324,44 @@ mapImpares f (x:_:xs) = f x:mapImpares f xs
 -- Exemplo: produtorio [2,3,4] retorna 24.  
 -- produtorio :: (Foldable t, Num a) => t a -> a
 
-
+produtorio :: (Foldable t, Num a) => t a -> a
+produtorio = foldr (*) 1
 
 -- Escreva uma função que retorne os quadrados dos números ímpares de uma lista, mas apenas se o quadrado for maior que 20.  
 -- Exemplo: quadradosFiltrados [1..10] retorna [25,49,81].
 -- quadradosFiltrados :: [Int] -> [Int]
 
+quadradosFiltrados :: [Int] -> [Int]
+quadradosFiltrados lista = filter (>20) $ map (^2) $ filter odd lista
+
 -- Implemente uma versão simplificada de `groupBy` que agrupa elementos consecutivos de uma lista conforme um predicado.  
 -- Exemplo: groupBy (\x y -> x == y) [1,1,2,3,3] retorna [[1,1],[2],[3,3]].  
 -- groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+
+groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+groupBy' f (x:xs) = foldl (\(x:xs) item -> if f item (head x) then (item:x):xs
+                                    else [item]:x:xs) [[x]] xs
 
 -- Calcule a média de uma lista de números usando apenas um fold (sem sum ou length separados).  
 -- Dica: Acompanhe a soma e a contagem durante o fold.  
 -- mediaFold :: (Fractional a, Foldable t) => t a -> a
 
--- Use map para converter todos os caracteres de uma string para maiúsculas (ignore caracteres não-ASCII).  
--- Dica: Use toUpper do módulo Data.Char (importe-o).  
--- paraMaiusculas :: String -> String
-
--- Explique com exemplos concretos por que foldl (/) 1 [2,3] e foldr (/) 1 [2,3] produzem resultados diferentes.
+mediaFold :: (Fractional a, Foldable t) => t a -> a
+mediaFold x = soma / contagem
+            where (soma,contagem) = foldr (\i (s, c) -> (i + s, 1 + c)) (0,0) x
 
 -- Crie uma função que insira um elemento entre todos os elementos de uma lista.  
 -- Exemplo: intercalar 0 [1,2,3] retorna [1,0,2,0,3].
 -- intercalar :: a -> [a] -> [a]
 
+intercalar :: a -> [a] -> [a]
+intercalar _ [a] = [a]
+intercalar i (x:xs) = x:i:intercalar i xs
+
+-- usando foldr
+intercalar' :: a -> [a] -> [a]
+intercalar' i lista = foldr (\x acc-> x:i:acc) [last lista] (init lista)
+
+-- usando foldr sem usar last e init
+intercalar'' :: a -> [a] -> [a]
+intercalar'' i = foldr (\x acc -> x : if null acc then [] else i : acc) []
