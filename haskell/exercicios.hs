@@ -406,10 +406,12 @@ scanr' func acc (x:xs) = func x (head result) : result where result = scanr' fun
 -- Resultado: True
 -- Porque 7 > 5
 
--- any :: (a -> Bool) -> [a] -> Bool
+any' :: (a -> Bool) -> [a] -> Bool
+any' func  = foldl (\acc elem -> func elem || acc) False
 
 -- all (<10) [1,3,7,2]
 -- Resultado: True
 -- Porque todos são < 10
 
--- all :: (a -> Bool) -> [a] -> Bool
+all' :: (a -> Bool) -> [a] -> Bool
+all' func = foldl (\acc elem -> func elem && acc) True
