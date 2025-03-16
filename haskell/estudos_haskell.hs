@@ -1,7 +1,5 @@
 -- estudos haskel
   ----------------------------------- Introdução -----------------------------------
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use foldr" #-}
 
 fact1 0 = 1 -- se n for 0 retorno 1
 fact1 n = n * fact1 (n-1) -- passo indutivo: retorna n * fatorial(n-1)

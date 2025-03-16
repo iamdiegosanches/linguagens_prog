@@ -368,17 +368,48 @@ intercalar'' i = foldr (\x acc -> x : if null acc then [] else i : acc) []
 
 -- Implemente uma função zipWith3 que aplique uma função a três listas simultaneamente, retornando uma lista com os resultados. Exemplo:
 -- zipWith3 (\x y z -> x + y * z) [1,2,3] [4,5,6] [7,8,9]
+-- Resultado: [29,42,57]
+-- Porque: [1+(4*7), 2+(5*8), 3+(6*9)] = [1+28, 2+40, 3+54] = [29,42,57]
+
+-- zipWith3 :: (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
 
 -- Crie uma função composeAll que receba uma lista de funções e as componha da direita para a esquerda. Exemplo:
 -- composeAll [(*2), (+3), (^2)] 5
+-- Resultado: 56
+-- Porque: (*2) . (+3) . (^2) $ 5 = (*2) . (+3) $ 25 = (*2) $ 28 = 56
+
+-- composeAll :: [a -> a] -> a -> a
 
 -- Implemente o algoritmo quicksort usando apenas funções de alta ordem (filter, map, etc.) sem recursão explícita.
 
--- Escreva uma função scanr usando foldr. A função scanr é como foldr, mas retorna uma lista de resultados intermediários.
+-- quicksort :: Ord a => [a] -> [a]
 
--- Implemente uma versão polimorfa da função partition que separe elementos de uma lista em dois grupos com base em um predicado.
+-- Escreva uma função scanr usando foldr. A função scanr é como foldr, mas retorna uma lista de resultados intermediários.
+-- scanr (+) 0 [1,2,3]
+-- Resultado: [6,5,3,0]
+-- Porque: [1+(2+(3+0)), 2+(3+0), 3+0, 0] = [1+5, 2+3, 3, 0] = [6,5,3,0]
+
+scanr' :: (a -> b -> b) -> b -> [a] -> [b]
+scanr' _ acc [] = [acc]
+scanr' func acc (x:xs) = func x (head result) : result where result = scanr' func acc xs
 
 -- Escreva a função mapAccumL que combina características de map e fold, permitindo manter um estado enquanto transforma uma lista.
+-- mapAccumL (\acc x -> (acc + x, show (acc + x))) 0 [1,2,3]
+-- Resultado: (6, ["1","3","6"])
+-- Estado começa em 0, acumula soma e transforma em string
+
+-- mapAccumL :: (acc -> x -> (acc, y)) -> acc -> [x] -> (acc, [y])
 
 -- Crie funções any e all que verificam se pelo menos um elemento ou todos os elementos de uma lista satisfazem um predicado, 
 -- mas usando foldl para otimização de tail recursion.
+-- any (>5) [1,3,7,2]
+-- Resultado: True
+-- Porque 7 > 5
+
+-- any :: (a -> Bool) -> [a] -> Bool
+
+-- all (<10) [1,3,7,2]
+-- Resultado: True
+-- Porque todos são < 10
+
+-- all :: (a -> Bool) -> [a] -> Bool
