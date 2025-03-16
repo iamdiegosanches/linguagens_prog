@@ -365,3 +365,20 @@ intercalar' i lista = foldr (\x acc-> x:i:acc) [last lista] (init lista)
 -- usando foldr sem usar last e init
 intercalar'' :: a -> [a] -> [a]
 intercalar'' i = foldr (\x acc -> x : if null acc then [] else i : acc) []
+
+-- Implemente uma função zipWith3 que aplique uma função a três listas simultaneamente, retornando uma lista com os resultados. Exemplo:
+-- zipWith3 (\x y z -> x + y * z) [1,2,3] [4,5,6] [7,8,9]
+
+-- Crie uma função composeAll que receba uma lista de funções e as componha da direita para a esquerda. Exemplo:
+-- composeAll [(*2), (+3), (^2)] 5
+
+-- Implemente o algoritmo quicksort usando apenas funções de alta ordem (filter, map, etc.) sem recursão explícita.
+
+-- Escreva uma função scanr usando foldr. A função scanr é como foldr, mas retorna uma lista de resultados intermediários.
+
+-- Implemente uma versão polimorfa da função partition que separe elementos de uma lista em dois grupos com base em um predicado.
+
+-- Escreva a função mapAccumL que combina características de map e fold, permitindo manter um estado enquanto transforma uma lista.
+
+-- Crie funções any e all que verificam se pelo menos um elemento ou todos os elementos de uma lista satisfazem um predicado, 
+-- mas usando foldl para otimização de tail recursion.
