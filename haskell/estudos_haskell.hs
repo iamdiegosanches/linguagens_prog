@@ -1,4 +1,5 @@
 -- estudos haskel
+import Data.List
   ----------------------------------- Introdução -----------------------------------
 
 fact1 0 = 1 -- se n for 0 retorno 1
@@ -294,7 +295,7 @@ heads :: [[a]] -> [a]
 heads = map head
 
 lasts :: [[a]] -> [a]
-lasts = map last 
+lasts = map last
 
 -- funcao filter
 maiorque3 :: (Num a, Ord a) => [a] -> [a]
@@ -316,7 +317,7 @@ foldr' f acc (x:xs) = f x (foldr' f acc xs)
 
 foldl' :: (b -> a -> b) -> b -> [a] -> b
 foldl' f acc [] = acc
-foldl' f acc (x:xs) = f (foldl' f acc xs) x
+foldl' f acc (x:xs) = f (foldl f acc xs) x
 
 ----------------------------------- Próprios Tipos -----------------------------------
 
@@ -380,7 +381,7 @@ superficie :: Forma -> Float
 superficie (Circulo _ _ r) = pi * r ^ 2
 superficie (Retangulo x1 y1 x2 y2) = abs (x2 - x1) * abs (y2 - y1)
 superficie (Trapezio besao b h) = ((besao + b)*h)
-superficie (Triangulo a1 a2) = a1*a2/2 
+superficie (Triangulo a1 a2) = a1*a2/2
 
 ---- Type classes
 
@@ -398,3 +399,75 @@ instance Eq Forma where
     (Triangulo a1 a2) == (Triangulo a3 a4) = (a1 == a3) && (a2 == a4)
     _ == _ = False
 
+--------------------------------------------------------------------------------------
+
+-- -- Pode ser o valor que ele enconrar ou nada
+-- data Maybe a = Nothing | Just a
+
+-- find :: Foldable t => (a -> Bool) -> t a -> Maybe
+
+encontrar :: Foldable t => (a -> Bool) -> t a -> Maybe a
+encontrar = find
+
+-- Retira de Just aplica e retorna pra Just
+-- Just tipo maybe, pode ser o valor ou nothing
+-- Pesquisar mehor melhor sobre o Just
+
+-- fmap é equivalente a map
+
+-- Functor
+-- aplicar varias funções em uma lista fmap (+1) (+5) 4
+-- (+1)<$>(+3)<$>[1,2,3] resposta: [5,6,7]
+-- (+1)<$>(+3)<$> Just 6
+
+-- Aplicar várias funções em uma lista
+-- Application
+-- [(*2), (+3)] <*> [1,2,3]
+-- [2,4,6,4,5,6]
+
+-- Encapsulado dentro do tipo Maybe
+-- Just (+3) <*> Just 2
+
+-- (<$>) :: Functor f => (a -> b) -> f a -> f b
+-- (<*>) :: Applicative f => f (a -> b) -> f a -> f b    Nese caso temos a função encapsulada
+
+-- Diferenças
+-- Prelude> (+2) <$> Just 3 -> não precisa encapsular, acumulativo
+-- Prelude> Just (+2) <*> Just 3 -> precisa estar encapsulado, paralelo
+
+-- Exemplo
+-- (*) <$> Just 5 <*> Just 3
+
+---------- Mônada
+
+-- Monada aplica uma função qe retorna um valor envolto a um valor envolto
+-- Ja caiu em prova essa função e explicar o que faz dentre outras
+half :: Integral a => a -> Maybe a
+half x = if even x
+            then Just (x `div` 2)
+        else Nothing
+    
+-- Se for par retorna metade senão nada
+-- Atenção: div é só inteiro o (/) retorna Decimal
+
+-- Prelude> half 4
+-- Just 2
+
+-- Prelude> half Just 4
+-- ERRO -> couldn't match expected type (A funçao não está esperanto o tipo Maybe)
+-- A monada serve para corriir esse problema
+
+---- Bind
+-- bind >>= para inserir o valor envolto na função
+-- Just 4 >>= half
+
+-- Consegue receber dados de outro tipo sem alterar a função
+
+--- Exemplos de Monada
+
+-- [3,4,5] >>= \x -> [x,-x]
+-- [3,3,4,-4,5,-5]
+
+-- Prelude> getLine >>= readFile >>= putStrLn
+-- texto.txt
+-- Le do tecladotexto.txt aplica no readFile e pra ler esse arquivo e printa na tela o conteudo desse arquivo

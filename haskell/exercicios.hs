@@ -380,10 +380,6 @@ intercalar'' i = foldr (\x acc -> x : if null acc then [] else i : acc) []
 
 -- composeAll :: [a -> a] -> a -> a
 
--- Implemente o algoritmo quicksort usando apenas funções de alta ordem (filter, map, etc.) sem recursão explícita.
-
--- quicksort :: Ord a => [a] -> [a]
-
 -- Escreva uma função scanr usando foldr. A função scanr é como foldr, mas retorna uma lista de resultados intermediários.
 -- scanr (+) 0 [1,2,3]
 -- Resultado: [6,5,3,0]
