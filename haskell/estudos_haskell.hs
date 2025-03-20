@@ -401,53 +401,70 @@ instance Eq Forma where
 
 --------------------------------------------------------------------------------------
 
--- -- Pode ser o valor que ele enconrar ou nada
--- data Maybe a = Nothing | Just a
+---- Módulos
+
+-- A função find recebe uma lista e um predicado e retorna o primeiro elemento que satisfaça o predicado
+-- mas retorna os elementos envolvidos no maibe
 
 -- find :: Foldable t => (a -> Bool) -> t a -> Maybe
+
+-- Pode ser o valor que ele enconrar ou nada
+-- data Maybe a = Nothing | Just a
 
 encontrar :: Foldable t => (a -> Bool) -> t a -> Maybe a
 encontrar = find
 
--- Retira de Just aplica e retorna pra Just
--- Just tipo maybe, pode ser o valor ou nothing
--- Pesquisar mehor melhor sobre o Just
 
 -- fmap é equivalente a map
 
--- Functor
--- aplicar varias funções em uma lista fmap (+1) (+5) 4
--- (+1)<$>(+3)<$>[1,2,3] resposta: [5,6,7]
--- (+1)<$>(+3)<$> Just 6
+---- Classe Functor
+-- Functor é uma classe para tipos que podem ser mapeados. Possui um único metodo chamado fmap
 
--- Aplicar várias funções em uma lista
--- Application
--- [(*2), (+3)] <*> [1,2,3]
--- [2,4,6,4,5,6]
+-- aplicar varias funções em uma lista fmap (+1) (+5) 4
+
+aplicar1 = fmap (+2) (Just 2)
+-- retorna Just 4
+
+aplicar2 = fmap (+1) (+3) 4
+-- retorna 8
+
+-- método incorretofmap (+1) (+5) ([1,2,3,4])
+
+-- Para aplicar várias funções a uma lista
+
+aplicar3 = (+1)<$>(+3)<$>[1,2,3]
+-- resposta: [5,6,7]
+
+aplicar4 = (+1)<$>(+3)<$> Just 6
+-- just 10
+
+---- Applicatives
+applicative1 = [(*2), (+3)] <*> [1,2,3]
+-- Resposta: [2,4,6,4,5,6]
 
 -- Encapsulado dentro do tipo Maybe
--- Just (+3) <*> Just 2
+applicativeJust = Just (+3) <*> Just 2
 
+-- Diferenças
 -- (<$>) :: Functor f => (a -> b) -> f a -> f b
 -- (<*>) :: Applicative f => f (a -> b) -> f a -> f b    Nese caso temos a função encapsulada
 
--- Diferenças
 -- Prelude> (+2) <$> Just 3 -> não precisa encapsular, acumulativo
 -- Prelude> Just (+2) <*> Just 3 -> precisa estar encapsulado, paralelo
 
--- Exemplo
--- (*) <$> Just 5 <*> Just 3
+-- Exemplo: uso dos dois
+applicationFunctor = (*) <$> Just 5 <*> Just 3
 
 ---------- Mônada
-
 -- Monada aplica uma função qe retorna um valor envolto a um valor envolto
+
 -- Ja caiu em prova essa função e explicar o que faz dentre outras
 half :: Integral a => a -> Maybe a
 half x = if even x
             then Just (x `div` 2)
         else Nothing
     
--- Se for par retorna metade senão nada
+-- Se o número for par retorna sua metade senão, não retorna nada
 -- Atenção: div é só inteiro o (/) retorna Decimal
 
 -- Prelude> half 4
@@ -463,10 +480,20 @@ half x = if even x
 
 -- Consegue receber dados de outro tipo sem alterar a função
 
---- Exemplos de Monada
+--- Exemplos de Mônada
 
--- [3,4,5] >>= \x -> [x,-x]
+monadaBind = [3,4,5] >>= \x -> [x,-x]
 -- [3,3,4,-4,5,-5]
+
+-- Outros exemplos
+linha = getLine
+
+imprimir = putStrLn "Hello, World"
+
+lerArquivo = readFile "texto.txt"
+
+-- Encadeamento
+encadeamento = getLine >>= readFile >>= putStrLn
 
 -- Prelude> getLine >>= readFile >>= putStrLn
 -- texto.txt
