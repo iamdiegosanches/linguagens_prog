@@ -66,6 +66,7 @@ dividirSeguro x y = Right (x / y)
    se é maior de idade.
 -}
 
+maiorDeIdade :: IO ()
 maiorDeIdade = do
     putStrLn "Digite o seu nome:"
     input <- getLine
@@ -100,9 +101,11 @@ combinarListas funcoes elementos = funcoes <*> elementos
 -- 7. Mônadas e Maybe
 {-
    Implemente mediaSegura :: [Int] -> Maybe Double.
-   Use >>= para evitar divisão por zero.
 -}
 
+mediaSegura :: [Int] -> Maybe Double
+mediaSegura [] = Nothing
+mediaSegura xs = Just (fromIntegral (sum xs) / fromIntegral (length xs))
 
 -- Exemplos:
 -- mediaSegura [10, 20, 30]  -- Just 20.0
@@ -114,6 +117,9 @@ combinarListas funcoes elementos = funcoes <*> elementos
    Converta dobrarPares para usar map e lambda.
 -}
 
+dobrarPares :: Integral a => [a] -> [a]
+dobrarPares lista = map (2*) $ filter even lista
+
 -- Exemplo:
 -- dobrarPares [1,2,3,4]  -- [4,8]
 
@@ -124,32 +130,39 @@ combinarListas funcoes elementos = funcoes <*> elementos
    Implemente ehValido para verificar CPF com 11 dígitos.
 -}
 
+type CPF = String
+
+data Pessoa = Pessoa {nome::String, idadee::Int, cpf::CPF}
+
+ehValido :: Pessoa -> Bool
+ehValido (Pessoa _ _ cpf) = length cpf == 11
+
 -- Exemplo:
 -- ehValido (Pessoa "Ana" 25 "12345678901")  -- True
 
 ----------------------------------------------------------------
 -- 10. Lazy Evaluation e Listas Infinitas
 {-
-   Implemente primos :: [Integer] usando Crivo de Eratóstenes.
+   Implemente primos :: [Integer] usando Crivo de Eratóstenes 
 -}
+
+primos :: [Integer]
+primos = crivo [2..]
+  where
+    crivo (p:xs) = p : crivo [x | x <- xs, x `mod` p /= 0]
 
 -- Exemplo:
 -- take 5 primos  -- [2,3,5,7,11]
 
 ----------------------------------------------------------------
--- 11. Pattern Matching Avançado
-{-
-   Implemente contarPadroes :: [Int] -> Int para contar [1,3].
--}
-
--- Exemplo:
--- contarPadroes [1,3,1,3,5,1,3]  -- 3
-
-----------------------------------------------------------------
--- 12. Classe Functor Personalizada
+-- 11. Classe Functor Personalizada
 {-
    Crie o tipo Box e sua instância de Functor.
 -}
+data Box a = Box a
+
+instance Functor Box where
+   fmap f (Box x) = Box (f x)
 
 -- Exemplo:
 -- fmap (+2) (Box 3)  -- Box 5
